@@ -27,26 +27,28 @@ def displayStats (encounterStats, skills):
 def turn(player, encounterStats, skills):
 #One turn for one player
 	print ("Player #", player[0], "in action!")
-	action = int(input("Choose main action F, R, K, S, H, T, G, N):"))
-	damage = d(20)
-	print ("d20 rolls for", damage)
-	damage = 1 * damage * player[action] * encounterStats[action]
-	print ("Damage is", damage)
-	encounterStats[0] = encounterStats[0] - damage
-	print ("Hit points left", encounterStats[0])
-	
-	action = int(input("Choose secondary action (F, R, K, S, H, T, G, N):"))
-	damage = d(20)
-	print ("d20 rolls for", damage)
-	damage = 0.5 * damage * player[action] * encounterStats[action]
-	print ("Damage is", damage)
-	encounterStats[0] = encounterStats[0] - damage
-	print ("Hit points left", encounterStats[0])
+	fullDamage = 0
+	for act in range (1, 3):
+		print ("Choose action #", act, "(F, R, K, S, H, T, G, N, '0' is for change vulnerability):")
+		action = int(input())
+		if action == 0:
+			new = int(input("Choose vulnerability to change "))
+			encounterStats[new] = int(input("Input new amount "))
+			action = int(input ("Choose new action "))
+		for stat in range (0, player[action]):
+			damage = d(20)
+			print ("d20 rolls for", damage)
+			damage = 2 * damage * encounterStats[action]
+			encounterStats[0] = encounterStats[0] - damage
+			fullDamage = fullDamage + damage
+		print ("Damage is", fullDamage)
+		print ("Hit points left", encounterStats[0])
+
 	
 		
 def firstEncounter(p1, p2, p3, skills):
 #Weak skeleton
-	encounterStats = [100, 1.5, 1, 0.75, 0.25, 0.25, 1, 1.5, 1]
+	encounterStats = [200, 1.5, 1, 0.75, 0.25, 0.25, 1, 1.5, 1]
 	displayStats (encounterStats, skills)
 	print ('Weak skeleton is aproaching')
 	while (encounterStats[0] > 0):
