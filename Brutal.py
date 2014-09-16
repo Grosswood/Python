@@ -1,13 +1,19 @@
 from random import randint
-def hit (playerNumber):
-#When player injured randomly chooses struck limb
-	i = randint (0, 5)
-	limbs = ["left leg", "right leg", "left arm", "right arm", "torso", "head"]
-	print ("Player #", playerNumber, "injured his", limbs[i])
 
 def d (dice):
-#random for dices
+#private random for dices
 	return (randint (1, dice))
+	
+def D (dice):
+#public random
+	result = (randint (1, dice))
+	print ("d", dice, "rolls for", result)
+	return result
+	
+def hit (playerNumber):
+#When player injured randomly chooses struck limb
+	limbs = ["left leg", "right leg", "left arm", "right arm", "torso", "head"]
+	print ("Player #", playerNumber, "injured his", limbs[(d(6) - 1)])
 
 def enterStats (playerNumber, skills):
 #Input of detailed player characteristics
@@ -27,7 +33,7 @@ def displayStats (encounterStats, skills):
 def turn(player, encounterStats, skills):
 #One turn for one player
 	print ("Player #", player[0], "in action!")
-	fullDamage = 0
+	damage = 0
 	for act in range (1, 3):
 		print ("Choose action #", act, "(F, R, K, S, H, T, G, N, '0' is for change vulnerability):")
 		action = int(input())
@@ -36,13 +42,13 @@ def turn(player, encounterStats, skills):
 			encounterStats[new] = int(input("Input new amount "))
 			action = int(input ("Choose new action "))
 		for stat in range (0, player[action]):
-			damage = d(20)
-			print ("d20 rolls for", damage)
-			damage = 2 * damage * encounterStats[action]
-			encounterStats[0] = encounterStats[0] - damage
-			fullDamage = fullDamage + damage
-		print ("Damage is", fullDamage)
+			damage = (2 * D(20) * encounterStats[action]) + damage
+		encounterStats[0] = encounterStats[0] - damage
+		print ("Damage is", damage)
 		print ("Hit points left", encounterStats[0])
+		if encounterStats[0] <= 0:
+			break
+
 
 	
 		
@@ -65,6 +71,7 @@ def firstEncounter(p1, p2, p3, skills):
 				print ("He misses!")
 			else:
 				hit(d(3))
+
 	
 	
 	
@@ -96,6 +103,7 @@ def main():
 			p3[0] = 3
 			enterStats (p3, skills)
 	firstEncounter(p1, p2, p3, skills)
+
 	
 	
 	
