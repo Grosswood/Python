@@ -34,5 +34,5 @@ def main ():
 		
 	
 	
-print ("Hello! Hope you're having a good day! Please enter coefficients for quad sentence")
+print ("Hello! Hope you're having a good day! Please enter coefficients for Quadratic equation")
 main ()
